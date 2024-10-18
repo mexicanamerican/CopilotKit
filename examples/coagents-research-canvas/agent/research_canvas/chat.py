@@ -58,6 +58,13 @@ async def chat_node(state: AgentState, config: RunnableConfig):
             "content": content
         })
 
+    # print("-----------------------------------")
+    # print("BEFORE CALLING CHAT")
+    # for message in state["messages"]:
+    #     print(message)
+    #     print("")
+    # print("-----------------------------------")
+
     response = await get_model().bind_tools(
         [
             Search,
@@ -65,7 +72,6 @@ async def chat_node(state: AgentState, config: RunnableConfig):
             WriteResearchQuestion,
             DeleteResources,
         ],
-        parallel_tool_calls=False,
     ).ainvoke([
         SystemMessage(
             content=f"""
@@ -87,6 +93,10 @@ async def chat_node(state: AgentState, config: RunnableConfig):
         ),
         *state["messages"],
     ], config)
+
+    # print("-----------------------------------")
+    # print("AFTER CALLING CHAT")
+    # print("-----------------------------------")
 
     ai_message = cast(AIMessage, response)
 
