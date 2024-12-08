@@ -7,11 +7,10 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@changesets/cli':
-        specifier: ^2.26.2
-        version: 2.27.7
     devDependencies:
+      '@changesets/cli':
+        specifier: ^2.27.7
+        version: 2.27.7
       '@types/node':
         specifier: ^18.11.17
         version: 18.19.42
@@ -60,6 +59,9 @@ importers:
       '@copilotkit/runtime':
         specifier: workspace:*
         version: link:../../packages/runtime
+      '@copilotkit/runtime-client-gql':
+        specifier: workspace:*
+        version: link:../../packages/runtime-client-gql
       '@copilotkit/shared':
         specifier: workspace:*
         version: link:../../packages/shared

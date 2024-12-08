@@ -47,36 +47,45 @@ interface InProgressStateWait<T extends Parameter[] | [] = []> {
 interface ExecutingStateWait<T extends Parameter[] | [] = []> {
   status: "executing";
   args: MappedParameterTypes<T>;
+  /** @deprecated use respond instead */
   handler: (result: any) => void;
+  respond: (result: any) => void;
   result: undefined;
 }
 
 interface CompleteStateWait<T extends Parameter[] | [] = []> {
   status: "complete";
   args: MappedParameterTypes<T>;
+  /** @deprecated use respond instead */
   handler: undefined;
+  respond: undefined;
   result: any;
 }
 
 interface InProgressStateNoArgsWait<T extends Parameter[] | [] = []> {
   status: "inProgress";
   args: Partial<MappedParameterTypes<T>>;
+  /** @deprecated use respond instead */
   handler: undefined;
+  respond: undefined;
   result: undefined;
 }
 
 interface ExecutingStateNoArgsWait<T extends Parameter[] | [] = []> {
   status: "executing";
   args: MappedParameterTypes<T>;
+  /** @deprecated use respond instead */
   handler: (result: any) => void;
+  respond: (result: any) => void;
   result: undefined;
 }
 
 interface CompleteStateNoArgsWait<T extends Parameter[] | [] = []> {
   status: "complete";
   args: MappedParameterTypes<T>;
+  /** @deprecated use respond instead */
   handler: undefined;
-  result: any;
+  respond: undefined;
 }
 
 export type ActionRenderProps<T extends Parameter[] | [] = []> =
@@ -109,11 +118,17 @@ export type FrontendAction<T extends Parameter[] | [] = []> = Action<T> & {
           | (T extends []
               ? (props: ActionRenderPropsNoArgs<T>) => string | React.ReactElement
               : (props: ActionRenderProps<T>) => string | React.ReactElement);
+        /** @deprecated use renderAndWaitForResponse instead */
         renderAndWait?: never;
+        renderAndWaitForResponse?: never;
       }
     | {
         render?: never;
-        renderAndWait: T extends []
+        /** @deprecated use renderAndWaitForResponse instead */
+        renderAndWait?: T extends []
+          ? (props: ActionRenderPropsNoArgsWait<T>) => React.ReactElement
+          : (props: ActionRenderPropsWait<T>) => React.ReactElement;
+        renderAndWaitForResponse?: T extends []
           ? (props: ActionRenderPropsNoArgsWait<T>) => React.ReactElement
           : (props: ActionRenderPropsWait<T>) => React.ReactElement;
         handler?: never;
