@@ -14,6 +14,7 @@ import { OverlayToggleBar } from "@/components/overlay-toggle-bar";
 import { ComposedCell } from "@/components/composed-cell";
 import { AdaptiveStatsBar } from "@/components/adaptive-stats-bar";
 import { AdaptiveLegend } from "@/components/adaptive-legend";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { BaselineTab } from "@/components/baseline-tab";
 import type { ParityTier } from "@/components/parity-badge";
 import { getDocsStatus } from "@/lib/docs-status";
@@ -211,6 +212,9 @@ export default function Page() {
         >
           Ops
         </button>
+        <div className="ml-auto flex items-center pr-1">
+          <ThemeToggle />
+        </div>
       </div>
 
       {activeTab === "matrix" && (

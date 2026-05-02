@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ── Light theme (default) ────────────────────────────────────────── */
 :root {
   --bg: #ffffff;
   --bg-surface: #ffffff;
@@ -15,6 +16,44 @@
   --ok: #059669;
   --amber: #d97706;
   --danger: #dc2626;
+}
+
+/* ── Dark theme ───────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --bg-surface: #1a1d27;
+  --bg-muted: #22252f;
+  --bg-hover: #2a2d3a;
+  --border: #2e3140;
+  --border-strong: #3d4155;
+  --text: #e4e6ed;
+  --text-secondary: #a0a6b6;
+  --text-muted: #6b7280;
+  --accent: #5b8def;
+  --accent-hover: #4a7de8;
+  --ok: #34d399;
+  --amber: #fbbf24;
+  --danger: #f87171;
+}
+
+/* ── System-auto: dark when no explicit theme set ─────────────────── */
+@media (prefers-color-scheme: dark) {
+  [data-theme="system"] {
+    --bg: #0f1117;
+    --bg-surface: #1a1d27;
+    --bg-muted: #22252f;
+    --bg-hover: #2a2d3a;
+    --border: #2e3140;
+    --border-strong: #3d4155;
+    --text: #e4e6ed;
+    --text-secondary: #a0a6b6;
+    --text-muted: #6b7280;
+    --accent: #5b8def;
+    --accent-hover: #4a7de8;
+    --ok: #34d399;
+    --amber: #fbbf24;
+    --danger: #f87171;
+  }
 }
 
 * {
