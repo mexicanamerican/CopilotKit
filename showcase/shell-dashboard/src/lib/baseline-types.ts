@@ -226,16 +226,18 @@ export const FEATURE_CATEGORIES: Record<string, string[]> = {
 /* ------------------------------------------------------------------ */
 
 export const BASELINE_PARTNERS: readonly { name: string; slug: string }[] = [
-  { name: "LangChain - Python", slug: "langchain-python" },
+  { name: "LangGraph (Python)", slug: "langgraph-python" },
+  { name: "LangGraph (TypeScript)", slug: "langgraph-typescript" },
+  { name: "LangGraph (FastAPI)", slug: "langgraph-fastapi" },
   { name: "Google ADK", slug: "google-adk" },
-  { name: "MAF - Python", slug: "maf-python" },
-  { name: "MAF - .Net", slug: "maf-dotnet" },
+  { name: "MS Agent Framework (Python)", slug: "ms-agent-python" },
+  { name: "MS Agent Framework (.NET)", slug: "ms-agent-dotnet" },
   { name: "Strands", slug: "strands" },
   { name: "Mastra", slug: "mastra" },
-  { name: "CrewAI", slug: "crewai" },
+  { name: "CrewAI", slug: "crewai-crews" },
   { name: "PydanticAI", slug: "pydantic-ai" },
-  { name: "Claude Agents SDK - Python", slug: "claude-sdk-python" },
-  { name: "Claude Agents SDK - TS", slug: "claude-sdk-typescript" },
+  { name: "Claude Agents SDK (Python)", slug: "claude-sdk-python" },
+  { name: "Claude Agents SDK (TS)", slug: "claude-sdk-typescript" },
   { name: "Agno", slug: "agno" },
   { name: "AG2", slug: "ag2" },
   { name: "LlamaIndex", slug: "llamaindex" },
@@ -249,6 +251,4 @@ export const BASELINE_PARTNERS: readonly { name: string; slug: string }[] = [
   { name: "OpenAI Agents SDK", slug: "openai-agents-sdk" },
   { name: "n8n", slug: "n8n" },
   { name: "Cloudflare", slug: "cloudflare" },
-  { name: "LangChain - TypeScript", slug: "langchain-typescript" },
-  { name: "LangChain - FastAPI", slug: "langchain-fastapi" },
 ];
