@@ -11,6 +11,7 @@ import { Fragment, useState, useMemo, useCallback } from "react";
 import {
   BASELINE_PARTNERS,
   FEATURE_CATEGORIES,
+  FEATURE_LABELS,
   type BaselineCell,
   type BaselineStatus,
   type BaselineTag,
@@ -57,9 +58,9 @@ function sortedPartners() {
   );
 }
 
-/** Convert a kebab-case slug to Title Case. */
-function slugToTitle(slug: string): string {
-  return slug
+/** Get display name for a feature slug, falling back to Title Case. */
+function featureLabel(slug: string): string {
+  return FEATURE_LABELS[slug] ?? slug
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
@@ -130,7 +131,7 @@ function CategorySection({
               style={{ backgroundColor: stripeBg ?? "var(--bg-surface)" }}
             >
               <span className="text-[11px] font-medium text-[var(--text)]">
-                {slugToTitle(featureSlug)}
+                {featureLabel(featureSlug)}
               </span>
             </td>
 
