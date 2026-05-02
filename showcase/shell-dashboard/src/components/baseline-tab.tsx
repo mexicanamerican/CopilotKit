@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
-import { pb } from "@/lib/pb";
+import { useState, useMemo } from "react";
 import { useBaseline } from "@/hooks/useBaseline";
 import { BaselineGrid } from "./baseline-grid";
 import { BaselineLegend } from "./baseline-legend";
 import { BaselineToastContainer } from "./baseline-toast";
-import { PbAuthPrompt } from "./pb-auth-prompt";
 
 /**
  * BaselineTab — container component that composes the header bar, grid,
@@ -15,7 +13,6 @@ import { PbAuthPrompt } from "./pb-auth-prompt";
 export function BaselineTab() {
   const { cells, status: connStatus, error, updateCell } = useBaseline();
   const [editing, setEditing] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
 
   // Compute aggregate stats from cells map
   const stats = useMemo(() => {
@@ -57,32 +54,7 @@ export function BaselineTab() {
     };
   }, [cells]);
 
-  // Toggle between view and edit mode, gating on PB auth
-  const handleToggleEditing = useCallback(
-    (wantEdit: boolean) => {
-      if (!wantEdit) {
-        setEditing(false);
-        return;
-      }
-      // Toggling ON: check auth
-      if (pb.authStore.isValid) {
-        setEditing(true);
-      } else {
-        setShowAuth(true);
-      }
-    },
-    [],
-  );
-
-  const handleAuthSuccess = useCallback(() => {
-    setShowAuth(false);
-    setEditing(true);
-  }, []);
-
-  const handleAuthCancel = useCallback(() => {
-    setShowAuth(false);
-    // editing stays false
-  }, []);
+  // Simple toggle — no auth gate for internal tool
 
   return (
     <>
@@ -98,7 +70,7 @@ export function BaselineTab() {
         <div className="inline-flex bg-[var(--bg)] rounded-[5px] p-0.5 border border-[var(--border)]">
           <button
             type="button"
-            onClick={() => handleToggleEditing(false)}
+            onClick={() => setEditing(false)}
             className={`px-3 py-1 text-xs font-medium rounded-[4px] transition-colors cursor-pointer ${
               !editing
                 ? "bg-[var(--accent)] text-white"
@@ -109,7 +81,7 @@ export function BaselineTab() {
           </button>
           <button
             type="button"
-            onClick={() => handleToggleEditing(true)}
+            onClick={() => setEditing(true)}
             className={`px-3 py-1 text-xs font-medium rounded-[4px] transition-colors cursor-pointer ${
               editing
                 ? "bg-[var(--accent)] text-white"
@@ -149,13 +121,6 @@ export function BaselineTab() {
       </div>
       <BaselineLegend />
       <BaselineToastContainer />
-
-      {showAuth && (
-        <PbAuthPrompt
-          onSuccess={handleAuthSuccess}
-          onCancel={handleAuthCancel}
-        />
-      )}
     </>
   );
 }

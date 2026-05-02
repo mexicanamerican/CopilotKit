@@ -26,8 +26,8 @@ migrate(
       ],
       listRule: "",
       viewRule: "",
-      createRule: '@request.auth.id != ""',
-      updateRule: '@request.auth.id != ""',
+      createRule: "",
+      updateRule: "",
       deleteRule: null,
     });
     dao.saveCollection(c);
