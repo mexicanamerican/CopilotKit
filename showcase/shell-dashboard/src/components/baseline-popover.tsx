@@ -59,14 +59,23 @@ export function BaselinePopover({
   }, [status, selectedTags, onSave, onClose]);
 
   /* ---- click outside → save + close ---- */
+  // Skip the initial click that opened the popover: the td's onClick fires
+  // on the same event as this mousedown listener would catch, immediately
+  // closing the popover. Defer listener attachment to the next frame.
   useEffect(() => {
+    let rafId: number;
     function handleMouseDown(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         saveAndClose();
       }
     }
-    document.addEventListener("mousedown", handleMouseDown);
-    return () => document.removeEventListener("mousedown", handleMouseDown);
+    rafId = requestAnimationFrame(() => {
+      document.addEventListener("mousedown", handleMouseDown);
+    });
+    return () => {
+      cancelAnimationFrame(rafId);
+      document.removeEventListener("mousedown", handleMouseDown);
+    };
   }, [saveAndClose]);
 
   /* ---- escape → save + close ---- */
@@ -83,9 +92,11 @@ export function BaselinePopover({
   /* ---- status change handler ---- */
   function handleStatusClick(s: BaselineStatus) {
     setStatus(s);
-    if (s !== "possible") {
+    if (s === "works" || s === "unknown") {
+      // No tags for these statuses
       setSelectedTags(new Set());
-    } else if (s === "possible" && selectedTags.size === 0) {
+    } else if ((s === "possible" || s === "impossible") && selectedTags.size === 0) {
+      // Default to "all" when switching to a tag-enabled status with no tags
       setSelectedTags(new Set<BaselineTag>(["all"]));
     }
   }
@@ -135,12 +146,15 @@ export function BaselinePopover({
     });
   }
 
-  const tagsDisabled = status !== "possible";
+  // Tags enabled for "possible" (needs work) and "impossible" (can't be done without X)
+  const tagsDisabled = status === "works" || status === "unknown";
 
   return (
     <div
       ref={ref}
       data-testid="baseline-popover"
+      onClick={(e) => e.stopPropagation()}
+      onMouseDown={(e) => e.stopPropagation()}
       className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 z-50 bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] min-w-[200px]"
     >
       {/* ---- Status row ---- */}

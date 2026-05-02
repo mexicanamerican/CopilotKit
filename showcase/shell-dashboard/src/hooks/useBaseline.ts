@@ -110,18 +110,13 @@ export function useBaseline(): UseBaselineResult {
     }
 
     async function fetchInitial(): Promise<Map<string, BaselineCell>> {
+      // getFullList auto-paginates internally — single call, no manual loop.
+      const items = await pb
+        .collection("baseline")
+        .getFullList<BaselineCell>({ batch: 1000 });
       const result = new Map<string, BaselineCell>();
-      let page = 1;
-      while (page <= MAX_PAGES) {
-        const resp = await pb
-          .collection("baseline")
-          .getList<BaselineCell>(page, PAGE_SIZE);
-        if (!resp.items || resp.items.length === 0) break;
-        for (const item of resp.items) {
-          result.set(item.key, item);
-        }
-        if (result.size >= resp.totalItems) break;
-        page += 1;
+      for (const item of items) {
+        result.set(item.key, item);
       }
       return result;
     }
