@@ -5,14 +5,16 @@ export const sortOrder: Record<string, number> = {
 
   "google-adk": 30,
   "ms-agent-python": 31,
+  "maf-python": 31,
   "ms-agent-dotnet": 32,
+  "maf-dotnet": 32,
   strands: 33,
   "aws-fast-langgraph": 34,
   "aws-fast-strands": 35,
 
   mastra: 60,
   "crewai-crews": 61,
-  crewai: 62,
+  crewai: 61,
   "pydantic-ai": 63,
   "claude-sdk-python": 64,
   "claude-sdk-typescript": 65,
