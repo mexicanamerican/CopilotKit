@@ -13,6 +13,8 @@ import {
 
 function TagBadge({ tag }: { tag: BaselineTag }) {
   const cfg = TAG_BADGE_CONFIG[tag];
+  // Defensive: skip unknown tags rather than crashing on undefined .bgColor
+  if (!cfg) return null;
   return (
     <span
       data-tag={tag}
