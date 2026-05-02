@@ -113,13 +113,22 @@ function CategorySection({
         onToggle={toggle}
       />
       {isOpen &&
-        featureSlugs.map((featureSlug) => (
+        featureSlugs.map((featureSlug, idx) => {
+          const stripe = idx % 2 === 1;
+          const stripeBg = stripe
+            ? "color-mix(in srgb, var(--bg-surface) 50%, var(--bg-muted))"
+            : undefined;
+          return (
           <tr
             key={featureSlug}
             className="border-t border-[var(--border)] hover:bg-[var(--bg-hover)]"
+            style={stripeBg ? { backgroundColor: stripeBg } : undefined}
           >
             {/* Feature name — sticky left */}
-            <td className="sticky left-0 z-10 bg-[var(--bg-surface)] px-4 py-2 border-r border-[var(--border)] align-top min-w-[140px]">
+            <td
+              className="sticky left-0 z-10 px-4 py-2 border-r border-[var(--border)] align-top min-w-[140px]"
+              style={{ backgroundColor: stripeBg ?? "var(--bg-surface)" }}
+            >
               <span className="text-[11px] font-medium text-[var(--text)]">
                 {slugToTitle(featureSlug)}
               </span>
@@ -164,7 +173,8 @@ function CategorySection({
               );
             })}
           </tr>
-        ))}
+          );
+        })}
     </Fragment>
   );
 }

@@ -190,7 +190,7 @@ export default function Page() {
               : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
           }`}
         >
-          Matrix
+          Coverage
         </button>
         <button
           type="button"

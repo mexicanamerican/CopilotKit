@@ -92,11 +92,9 @@ export function BaselinePopover({
   /* ---- status change handler ---- */
   function handleStatusClick(s: BaselineStatus) {
     setStatus(s);
-    if (s === "works" || s === "unknown") {
-      // No tags for these statuses
+    if (s !== "possible") {
       setSelectedTags(new Set());
-    } else if ((s === "possible" || s === "impossible") && selectedTags.size === 0) {
-      // Default to "all" when switching to a tag-enabled status with no tags
+    } else if (s === "possible" && selectedTags.size === 0) {
       setSelectedTags(new Set<BaselineTag>(["all"]));
     }
   }
@@ -146,8 +144,8 @@ export function BaselinePopover({
     });
   }
 
-  // Tags enabled for "possible" (needs work) and "impossible" (can't be done without X)
-  const tagsDisabled = status === "works" || status === "unknown";
+  // Tags only enabled for "possible". Impossible = impossible, no qualifiers.
+  const tagsDisabled = status !== "possible";
 
   return (
     <div
