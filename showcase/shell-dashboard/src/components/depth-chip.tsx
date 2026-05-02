@@ -1,16 +1,18 @@
 "use client";
 /**
- * DepthChip — colored chip showing achieved depth D0-D5.
+ * DepthChip — colored chip showing achieved depth D0-D6.
  *
- * Color mapping:
- *   D5    = emerald — deep multi-turn e2e coverage
- *   D3-D4 = amber/yellow — meaningful e2e but not yet D5
- *   D1-D2 = red — basic health only, needs work
- *   D0    = gray — exists but no live probe data
+ * Color mapping (relative to max achievable depth):
+ *   depth >= maxDepth = emerald (green) — at ceiling for this cell
+ *   1-2 below max     = amber — close but not at ceiling
+ *   3+ below max      = red — significantly below ceiling
+ *   D0                = gray — exists but no live probe data
  *   unshipped = transparent + dashed border, displays "--"
  *   unsupported = slate border + slate fill, displays "🚫"
  *                 (architectural limit — framework cannot support feature)
  *   regression = red (danger)
+ *
+ * Fallback (no maxDepth): D4+ green, D2-D3 amber, D0-D1 red.
  */
 
 export interface DepthChipProps {
@@ -18,29 +20,41 @@ export interface DepthChipProps {
   status: "wired" | "stub" | "unshipped" | "unsupported";
   /** When true, chip renders in red regardless of depth. */
   regression?: boolean;
+  /**
+   * Maximum achievable depth for this cell. When provided, the chip turns
+   * green when `depth >= maxDepth` (i.e. at ceiling), amber when 1-2 levels
+   * below, and red when 3+ levels below. This lets cells whose probes only
+   * go to D4 show green at D4 instead of the old hardcoded amber.
+   */
+  maxDepth?: number;
 }
 
-/** Background color class by depth tier. */
-function depthColorClass(depth: number, regression?: boolean): string {
+/**
+ * Background color class by depth tier.
+ *
+ * When `maxDepth` is supplied the color is relative: green at ceiling,
+ * amber within 2 levels, red otherwise. Without `maxDepth` the fallback
+ * heuristic is: D4+ green, D2-D3 amber, D0-D1 red.
+ */
+function depthColorClass(depth: number, regression?: boolean, maxDepth?: number): string {
   if (regression) {
     return "bg-[var(--danger)] text-white";
   }
-  switch (depth) {
-    case 5:
-      return "bg-emerald-600 text-white";
-    case 3:
-    case 4:
-      return "bg-[var(--amber)] text-white";
-    case 1:
-    case 2:
-      return "bg-[var(--danger)] text-white";
-    case 0:
-    default:
-      return "bg-[var(--text-muted)]/20 text-[var(--text-muted)]";
+  if (depth === 0) {
+    return "bg-[var(--text-muted)]/20 text-[var(--text-muted)]";
   }
+  if (maxDepth !== undefined) {
+    if (depth >= maxDepth) return "bg-emerald-600 text-white";
+    if (maxDepth - depth <= 2) return "bg-[var(--amber)] text-white";
+    return "bg-[var(--danger)] text-white";
+  }
+  // Fallback when maxDepth unknown
+  if (depth >= 4) return "bg-emerald-600 text-white";
+  if (depth >= 2) return "bg-[var(--amber)] text-white";
+  return "bg-[var(--danger)] text-white";
 }
 
-export function DepthChip({ depth, status, regression }: DepthChipProps) {
+export function DepthChip({ depth, status, regression, maxDepth }: DepthChipProps) {
   if (status === "unshipped") {
     return (
       <span
@@ -70,7 +84,7 @@ export function DepthChip({ depth, status, regression }: DepthChipProps) {
     );
   }
 
-  const colorClass = depthColorClass(depth, regression);
+  const colorClass = depthColorClass(depth, regression, maxDepth);
 
   return (
     <span
