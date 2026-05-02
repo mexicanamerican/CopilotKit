@@ -19,6 +19,7 @@ function TagBadge({ tag }: { tag: BaselineTag }) {
     <span
       data-tag={tag}
       data-testid={`tag-badge-${tag}`}
+      title={cfg.title}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -58,32 +59,26 @@ export function BaselineCellView({
 }: BaselineCellViewProps) {
   const statusCfg = STATUS_CONFIG[status];
 
+  // Build a summary tooltip for the whole cell
+  const tagNames = tags
+    .map((t) => TAG_BADGE_CONFIG[t]?.title ?? t)
+    .join(", ");
+  const cellTitle = tags.length > 0
+    ? `${statusCfg.title}\n${tagNames}`
+    : statusCfg.title;
+
   return (
     <div
       className={editing ? "cursor-pointer" : undefined}
+      title={cellTitle}
       style={{
         display: "inline-flex",
         alignItems: "center",
         gap: tags.length > 0 ? 3 : 0,
       }}
       onClick={editing ? onClick : undefined}
-      onMouseOver={
-        editing
-          ? (e) => {
-              (e.currentTarget as HTMLElement).style.backgroundColor =
-                "var(--bg-muted)";
-            }
-          : undefined
-      }
-      onMouseOut={
-        editing
-          ? (e) => {
-              (e.currentTarget as HTMLElement).style.backgroundColor = "";
-            }
-          : undefined
-      }
     >
-      <span style={{ fontSize: 12, lineHeight: 1 }}>{statusCfg.emoji}</span>
+      <span style={{ fontSize: 12, lineHeight: 1 }} title={statusCfg.title}>{statusCfg.emoji}</span>
 
       {tags.length > 0 && (
         <span
