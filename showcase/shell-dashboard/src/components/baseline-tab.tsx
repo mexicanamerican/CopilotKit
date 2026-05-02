@@ -84,19 +84,16 @@ export function BaselineTab() {
     // editing stays false
   }, []);
 
-  // Error state
-  if (connStatus === "error") {
-    return (
-      <div className="flex items-center justify-center py-20 text-[var(--text-muted)]">
-        <span>Baseline connection error: {error ?? "Unknown error"}</span>
-      </div>
-    );
-  }
-
   return (
     <>
       {/* Header bar — sticky top z-30 */}
-      <div className="sticky top-0 z-30 px-8 py-3 flex items-center gap-4 bg-[var(--bg-surface)] border-b border-[var(--border)]">
+      <div className="sticky top-0 z-30 px-8 py-3 flex flex-col gap-2 bg-[var(--bg-surface)] border-b border-[var(--border)]">
+        {connStatus === "error" && (
+          <div className="px-3 py-1.5 rounded text-xs text-[var(--danger)] border border-[var(--danger)]/20" style={{ backgroundColor: "rgba(248,113,113,0.08)" }}>
+            Baseline data unavailable: {error ?? "connection failed"}. Grid shows default values.
+          </div>
+        )}
+        <div className="flex items-center gap-4">
         {/* View / Edit toggle */}
         <div className="inline-flex bg-[var(--bg)] rounded-[5px] p-0.5 border border-[var(--border)]">
           <button
@@ -144,6 +141,7 @@ export function BaselineTab() {
             Connecting...
           </span>
         )}
+        </div>
       </div>
 
       <BaselineGrid cells={cells} editing={editing} onUpdate={updateCell} />
