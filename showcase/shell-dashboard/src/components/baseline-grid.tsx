@@ -136,15 +136,15 @@ function CategorySection({
               return (
                 <td
                   key={partner.slug}
-                  className="relative border-l border-[var(--border)] px-3 py-2 align-top text-center bg-[var(--bg)]"
+                  onClick={editing ? () => onCellClick(key) : undefined}
+                  className={`relative border-l border-[var(--border)] px-3 py-2 align-top text-center bg-[var(--bg)] ${
+                    editing ? "cursor-pointer hover:bg-[var(--bg-muted)]" : ""
+                  }`}
                 >
                   <BaselineCellView
                     status={status}
                     tags={tags}
                     editing={editing}
-                    onClick={
-                      editing ? () => onCellClick(key) : undefined
-                    }
                   />
                   {isActive && (
                     <span
