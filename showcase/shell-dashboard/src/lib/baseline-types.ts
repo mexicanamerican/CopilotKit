@@ -123,6 +123,50 @@ export function validateCell(cell: BaselineCell): boolean {
 /*  Feature categories                                                 */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Feature display labels — matches Coverage tab's registry names exactly.
+ * Keys are the Notion-derived slugs stored in PocketBase.
+ */
+export const FEATURE_LABELS: Record<string, string> = {
+  "beautiful-chat": "Beautiful Chat",
+  "pre-built-copilotchat": "Pre-Built CopilotChat",
+  "pre-built-sidebar": "Pre-Built: Sidebar",
+  "pre-built-popup": "Pre-Built: Popup",
+  "chat-customization-slots": "Chat Customization (Slots)",
+  "chat-customization-css": "Chat Customization (CSS)",
+  "headless-chat-simple": "Headless Chat (Simple)",
+  "headless-chat-complete": "Headless Chat (Complete)",
+  "controlled-gen-ui-display": "Controlled Gen-UI (Display)",
+  "in-chat-hitl-usehumanintheloop-ergonomic-api": "In-Chat HITL (useHumanInTheLoop — ergonomic API)",
+  "in-chat-hitl-booking": "In-Chat HITL (Booking)",
+  "in-chat-human-in-the-loop-original": "In-Chat Human in the Loop (Original)",
+  "in-app-human-in-the-loop-frontend-tools-async-hitl": "In-App Human in the Loop (Frontend Tools + async HITL)",
+  "in-chat-hitl-useinterrupt-low-level-primitive": "In-Chat HITL (useInterrupt — low-level primitive)",
+  "declarative-generative-ui-a2ui-dynamic-schema": "Declarative Generative UI (A2UI — Dynamic Schema)",
+  "declarative-generative-ui-a2ui-fixed-schema": "Declarative Generative UI (A2UI — Fixed Schema)",
+  "mcp-apps": "MCP Apps",
+  "fully-open-ended-generative-ui": "Fully Open-Ended Generative UI",
+  "open-ended-gen-ui-advanced-with-frontend-function-calling": "Open-Ended Gen UI (Advanced: with frontend function calling)",
+  "tool-rendering-default-catch-all": "Tool Rendering (Default Catch-all)",
+  "tool-rendering-custom-catch-all": "Tool Rendering (Custom Catch-all)",
+  "tool-rendering": "Tool Rendering",
+  "reasoning": "Reasoning",
+  "file-attachments": "File-attachments",
+  "shared-state-read-write": "Shared State (Read + Write)",
+  "agentic-generative-ui-in-chat-state-rendering": "Agentic Generative UI (In-Chat State Rendering)",
+  "state-streaming": "State Streaming",
+  "frontend-tools-in-app-actions": "Frontend Tools (In-app actions)",
+  "frontend-tools-async": "Frontend Tools (Async)",
+  "readonly-state-agent-context": "Readonly State (Agent Context)",
+  "sub-agents": "Sub-Agents",
+  "byoc-hashbrown": "BYOC Hashbrown",
+  "byoc-json-render": "BYOC json-render",
+};
+
+/**
+ * Feature categories — matches Coverage tab's category structure.
+ * Order within each category matches Coverage's feature ordering.
+ */
 export const FEATURE_CATEGORIES: Record<string, string[]> = {
   "Chat & UI": [
     "beautiful-chat",
@@ -134,36 +178,44 @@ export const FEATURE_CATEGORIES: Record<string, string[]> = {
     "headless-chat-simple",
     "headless-chat-complete",
   ],
-  "Generative UI": [
+  "Controlled Generative UI": [
     "controlled-gen-ui-display",
+    "in-chat-hitl-usehumanintheloop-ergonomic-api",
+    "in-chat-hitl-useinterrupt-low-level-primitive",
+    "in-chat-hitl-booking",
+    "in-chat-human-in-the-loop-original",
+  ],
+  "Declarative Generative UI": [
     "declarative-generative-ui-a2ui-dynamic-schema",
     "declarative-generative-ui-a2ui-fixed-schema",
+  ],
+  "Open-Ended Generative UI": [
     "mcp-apps",
     "fully-open-ended-generative-ui",
     "open-ended-gen-ui-advanced-with-frontend-function-calling",
+  ],
+  "Operational Generative UI": [
     "tool-rendering-default-catch-all",
     "tool-rendering-custom-catch-all",
     "tool-rendering",
-  ],
-  "Human in the Loop": [
-    "in-chat-hitl-usehumanintheloop-ergonomic-api",
-    "in-chat-hitl-booking",
-    "in-chat-human-in-the-loop-original",
-    "in-app-human-in-the-loop-frontend-tools-async-hitl",
-    "in-chat-hitl-useinterrupt-low-level-primitive",
-  ],
-  "Agent Capabilities": [
     "reasoning",
-    "file-attachments",
-    "shared-state-read-write",
     "agentic-generative-ui-in-chat-state-rendering",
-    "state-streaming",
+  ],
+  "Interactivity": [
     "frontend-tools-in-app-actions",
     "frontend-tools-async",
+    "in-app-human-in-the-loop-frontend-tools-async-hitl",
+  ],
+  "Agent State": [
+    "shared-state-read-write",
+    "state-streaming",
     "readonly-state-agent-context",
+    "file-attachments",
+  ],
+  "Multi-Agent": [
     "sub-agents",
   ],
-  Advanced: [
+  "BYOC": [
     "byoc-hashbrown",
     "byoc-json-render",
   ],
