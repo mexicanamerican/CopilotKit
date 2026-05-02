@@ -83,20 +83,24 @@ export default function Page() {
     return map;
   }, []);
 
-  // Compute health stats from column tallies (aggregate across integrations)
-  // Reuse the computeColumnTally logic from feature-grid.
-  // For the stats bar, we aggregate from catalog cell data.
+  // Compute health stats from live probe depth — green (D5), amber (D3/D4),
+  // red (D1/D2). Derives from the same liveStatus the depth distribution uses
+  // so the numbers are consistent.
   const healthStats = useMemo(() => {
     let green = 0;
     let amber = 0;
     let red = 0;
     for (const cell of catalogData.cells) {
-      if (cell.status === "wired") green++;
-      else if (cell.status === "stub") amber++;
-      // unshipped doesn't count as red for health
+      if (cell.status !== "wired" || cell.feature === null) continue;
+      const result = deriveDepth(cell as CatalogCell, liveStatus);
+      if (result.unsupported) continue;
+      if (result.achieved >= 5) green++;
+      else if (result.achieved >= 3) amber++;
+      else if (result.achieved >= 1) red++;
+      else green++; // D0 = no probe data yet, count as green (not a failure)
     }
     return { green, amber, red };
-  }, []);
+  }, [liveStatus]);
 
   // Compute parity tier counts
   const parityStats = useMemo(() => {
