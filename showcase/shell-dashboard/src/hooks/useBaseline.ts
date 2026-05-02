@@ -28,8 +28,10 @@ export interface UseBaselineResult {
 /*  Constants                                                          */
 /* ------------------------------------------------------------------ */
 
-const PAGE_SIZE = 200;
-const MAX_PAGES = 10;
+// Baseline has ~825 records — fetch in a single request to avoid
+// sequential round-trip latency (5 × 200 = 5 round trips to Railway PB).
+const PAGE_SIZE = 1000;
+const MAX_PAGES = 2;
 const MAX_RECONNECT_ATTEMPTS = 3;
 const RECONNECT_BACKOFF_BASE_MS = 1000;
 const RECONNECT_BACKOFF_MAX_MS = 8000;
