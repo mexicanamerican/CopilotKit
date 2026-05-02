@@ -144,7 +144,9 @@ export function BaselineTab() {
         </div>
       </div>
 
-      <BaselineGrid cells={cells} editing={editing} onUpdate={updateCell} />
+      <div className="flex-1 min-h-0 overflow-auto pb-12">
+        <BaselineGrid cells={cells} editing={editing} onUpdate={updateCell} />
+      </div>
       <BaselineLegend />
       <BaselineToastContainer />
 
