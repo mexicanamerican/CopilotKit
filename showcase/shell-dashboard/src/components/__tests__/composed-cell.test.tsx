@@ -248,10 +248,10 @@ describe("ComposedCell", () => {
     ).toBeTruthy();
   });
 
-  it("renders 3 layers when all active — docs deduped by health", () => {
+  it("renders 4 layers when all content overlays active", () => {
     const ctx = makeCtx();
     const catalogCell = makeCatalogCell();
-    const { getByText, getByTestId, queryByTestId } = render(
+    const { getByText, getByTestId } = render(
       <ComposedCell
         ctx={ctx}
         overlays={overlaySet("links", "depth", "health", "docs", "parity")}
@@ -262,12 +262,12 @@ describe("ComposedCell", () => {
     expect(getByText("Demo")).toBeInTheDocument();
     expect(getByTestId("depth-layer")).toBeInTheDocument();
     expect(getByTestId("health-layer")).toBeInTheDocument();
-    // DocsLayer suppressed when health is active (CellStatus already includes docs)
-    expect(queryByTestId("docs-layer")).toBeNull();
+    // DocsLayer renders independently — health and docs are separate layers
+    expect(getByTestId("docs-layer")).toBeInTheDocument();
 
     const composedCell = getByTestId("composed-cell");
     const children = Array.from(composedCell.children);
-    expect(children.length).toBe(3);
+    expect(children.length).toBe(4); // links, depth, health, docs (parity adds no content)
   });
 
   it("applies opacity-60 for testing-kind features", () => {
