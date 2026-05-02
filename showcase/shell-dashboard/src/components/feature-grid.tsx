@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 import {
   getIntegrations,
   getFeatures,
@@ -199,6 +199,18 @@ function resolveShellUrl(): string {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Shared style constant — avoids re-creating object on every row    */
+/* ------------------------------------------------------------------ */
+
+const STRIPE_STYLE = {
+  backgroundColor: "color-mix(in srgb, var(--bg-surface) 50%, var(--bg-muted))",
+} as const;
+
+const SURFACE_STYLE = {
+  backgroundColor: "var(--bg-surface)",
+} as const;
+
+/* ------------------------------------------------------------------ */
 /*  CategorySection — one collapsible group of feature rows            */
 /* ------------------------------------------------------------------ */
 
@@ -214,7 +226,7 @@ interface CategorySectionProps {
   categoryColSpan: number;
 }
 
-function CategorySection({
+const CategorySection = React.memo(function CategorySection({
   cat,
   integrations,
   renderCell,
@@ -265,22 +277,11 @@ function CategorySection({
             <tr
               key={feature.id}
               className="border-t border-[var(--border)] hover:bg-[var(--bg-hover)]"
-              style={
-                stripe
-                  ? {
-                      backgroundColor:
-                        "color-mix(in srgb, var(--bg-surface) 50%, var(--bg-muted))",
-                    }
-                  : undefined
-              }
+              style={stripe ? STRIPE_STYLE : undefined}
             >
               <td
                 className="sticky left-0 z-10 px-1 py-1 border-r border-[var(--border)] align-top"
-                style={{
-                  backgroundColor: stripe
-                    ? "color-mix(in srgb, var(--bg-surface) 50%, var(--bg-muted))"
-                    : "var(--bg-surface)",
-                }}
+                style={stripe ? STRIPE_STYLE : SURFACE_STYLE}
               >
                 <div
                   className={
@@ -370,7 +371,19 @@ function CategorySection({
         })}
     </Fragment>
   );
-}
+}, (prev, next) => {
+  return (
+    prev.liveStatus === next.liveStatus &&
+    prev.connection === next.connection &&
+    prev.cat === next.cat &&
+    prev.renderCell === next.renderCell &&
+    prev.integrations === next.integrations &&
+    prev.shellUrl === next.shellUrl &&
+    prev.showRefDepth === next.showRefDepth &&
+    prev.refCellsByFeature === next.refCellsByFeature &&
+    prev.categoryColSpan === next.categoryColSpan
+  );
+});
 
 /* ------------------------------------------------------------------ */
 /*  FeatureGrid                                                        */
@@ -466,12 +479,16 @@ export function FeatureGrid({
     return map;
   }, [catalog, showRefDepth]);
 
-  const featuresByCategory = categories
-    .map((cat) => ({
-      ...cat,
-      features: features.filter((f) => f.category === cat.id),
-    }))
-    .filter((cat) => cat.features.length > 0);
+  const featuresByCategory = useMemo(
+    () =>
+      categories
+        .map((cat) => ({
+          ...cat,
+          features: features.filter((f) => f.category === cat.id),
+        }))
+        .filter((cat) => cat.features.length > 0),
+    [categories, features],
+  );
 
   // Colspan for category separator row: base (Feature col) + integrations + optional ref-depth
   const categoryColSpan = integrations.length + 1 + (showRefDepth ? 1 : 0);
