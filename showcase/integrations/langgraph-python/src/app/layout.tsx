@@ -4,7 +4,7 @@ import "./globals.css";
 import "./copilotkit-overrides.css";
 
 export const metadata: Metadata = {
-  title: "CopilotKit Showcase — LangGraph (Python)",
+  title: "CopilotKit Showcase — LangChain (Python)",
 };
 
 export default function RootLayout({
