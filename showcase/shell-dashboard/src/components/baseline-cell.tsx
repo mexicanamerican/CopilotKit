@@ -19,7 +19,7 @@ function TagBadge({ tag }: { tag: BaselineTag }) {
     <span
       data-tag={tag}
       data-testid={`tag-badge-${tag}`}
-      title={cfg.title}
+      data-tip={cfg.title}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -70,7 +70,7 @@ export function BaselineCellView({
   return (
     <div
       className={editing ? "cursor-pointer" : undefined}
-      title={cellTitle}
+      data-tip={cellTitle}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -78,7 +78,7 @@ export function BaselineCellView({
       }}
       onClick={editing ? onClick : undefined}
     >
-      <span style={{ fontSize: 12, lineHeight: 1 }} title={statusCfg.title}>{statusCfg.emoji}</span>
+      <span style={{ fontSize: 12, lineHeight: 1 }} data-tip={statusCfg.title}>{statusCfg.emoji}</span>
 
       {tags.length > 0 && (
         <span
