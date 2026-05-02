@@ -48,15 +48,6 @@
   ],
   "features": [
     {
-      "id": "beautiful-chat",
-      "name": "Beautiful Chat",
-      "category": "dev-ex",
-      "description": "Canonical polished starter chat (same as /examples/integrations/langgraph-python)",
-      "kind": "primary",
-      "og_docs_url": "https://docs.copilotkit.ai/agentic-chat-ui",
-      "shell_docs_path": "/agentic-chat-ui"
-    },
-    {
       "id": "cli-start",
       "name": "CLI Start Command",
       "category": "dev-ex",
@@ -64,6 +55,15 @@
       "kind": "docs-only",
       "og_docs_url": "https://docs.copilotkit.ai/quickstart",
       "shell_docs_path": "/quickstart"
+    },
+    {
+      "id": "beautiful-chat",
+      "name": "Beautiful Chat",
+      "category": "dev-ex",
+      "description": "Canonical polished starter chat (same as /examples/integrations/langgraph-python)",
+      "kind": "primary",
+      "og_docs_url": "https://docs.copilotkit.ai/agentic-chat-ui",
+      "shell_docs_path": "/agentic-chat-ui"
     },
     {
       "id": "agentic-chat",

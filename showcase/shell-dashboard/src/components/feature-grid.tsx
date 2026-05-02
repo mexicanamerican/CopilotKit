@@ -253,7 +253,7 @@ function CategorySection({
         cat.features.map((feature, idx) => {
           const testing = feature.kind === "testing";
           const docsOnly = feature.kind === "docs-only";
-          const muted = testing || docsOnly;
+          const muted = testing;
           const stripe = idx % 2 === 1;
           const refCell = showRefDepth
             ? refCellsByFeature.get(feature.id)
