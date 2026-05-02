@@ -1,7 +1,10 @@
 export const sortOrder: Record<string, number> = {
   "langgraph-python": 10,
+  "langchain-python": 10,
   "langgraph-typescript": 11,
+  "langchain-typescript": 11,
   "langgraph-fastapi": 12,
+  "langchain-fastapi": 12,
 
   "google-adk": 30,
   "ms-agent-python": 31,
