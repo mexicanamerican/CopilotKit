@@ -57,15 +57,15 @@ export const INDIVIDUAL_TAGS: readonly BaselineTag[] = TAGS.filter(
 
 export const TAG_BADGE_CONFIG: Record<
   BaselineTag,
-  { label: string; color: string; bgColor: string }
+  { label: string; title: string; color: string; bgColor: string }
 > = {
-  cpk: { label: "C", color: "#c084fc", bgColor: "rgba(168,85,247,0.2)" },
-  agui: { label: "A", color: "#93c5fd", bgColor: "rgba(96,165,250,0.2)" },
-  int: { label: "I", color: "#fca5a5", bgColor: "rgba(248,113,113,0.2)" },
-  demo: { label: "▶", color: "#6ee7b7", bgColor: "rgba(52,211,153,0.2)" },
-  docs: { label: "D", color: "#fcd34d", bgColor: "rgba(251,191,36,0.2)" },
-  tests: { label: "T", color: "#d4a76a", bgColor: "rgba(180,140,100,0.2)" },
-  all: { label: "✱", color: "#9ca3af", bgColor: "rgba(107,112,128,0.25)" },
+  cpk: { label: "C", title: "Needs CopilotKit change", color: "#c084fc", bgColor: "rgba(168,85,247,0.2)" },
+  agui: { label: "A", title: "Needs AG-UI change", color: "#93c5fd", bgColor: "rgba(96,165,250,0.2)" },
+  int: { label: "I", title: "Needs integration change", color: "#fca5a5", bgColor: "rgba(248,113,113,0.2)" },
+  demo: { label: "▶", title: "Needs a demo", color: "#6ee7b7", bgColor: "rgba(52,211,153,0.2)" },
+  docs: { label: "D", title: "Needs docs", color: "#fcd34d", bgColor: "rgba(251,191,36,0.2)" },
+  tests: { label: "T", title: "Needs tests", color: "#d4a76a", bgColor: "rgba(180,140,100,0.2)" },
+  all: { label: "✱", title: "Needs everything", color: "#9ca3af", bgColor: "rgba(107,112,128,0.25)" },
 };
 
 /* ------------------------------------------------------------------ */
@@ -74,25 +74,29 @@ export const TAG_BADGE_CONFIG: Record<
 
 export const STATUS_CONFIG: Record<
   BaselineStatus,
-  { emoji: string; color: string; bgColor: string }
+  { emoji: string; title: string; color: string; bgColor: string }
 > = {
   works: {
     emoji: "✅",
+    title: "Works — no work needed",
     color: "var(--ok)",
     bgColor: "rgba(52,211,153,0.15)",
   },
   possible: {
     emoji: "🛠️",
+    title: "Possible — needs work",
     color: "var(--amber)",
     bgColor: "rgba(251,191,36,0.12)",
   },
   impossible: {
     emoji: "❌",
+    title: "Impossible — cannot be done",
     color: "var(--danger)",
     bgColor: "rgba(248,113,113,0.12)",
   },
   unknown: {
     emoji: "❓",
+    title: "Unknown — needs investigation",
     color: "var(--unknown,#a78bfa)",
     bgColor: "rgba(167,139,250,0.12)",
   },
