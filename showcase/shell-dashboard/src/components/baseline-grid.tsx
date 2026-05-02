@@ -122,7 +122,7 @@ function CategorySection({
           return (
           <tr
             key={featureSlug}
-            className="border-t border-[var(--border)] hover:bg-[var(--bg-hover)]"
+            className="grid-row border-t border-[var(--border)]"
             style={stripeBg ? { backgroundColor: stripeBg } : undefined}
           >
             {/* Feature name — sticky left */}
