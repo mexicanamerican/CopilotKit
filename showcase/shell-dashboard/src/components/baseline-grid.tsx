@@ -127,7 +127,7 @@ function CategorySection({
 
             {/* Partner cells */}
             {partners.map((partner) => {
-              const key = `${partner.slug}/${featureSlug}`;
+              const key = `${partner.slug}:${featureSlug}`;
               const cell = cells.get(key);
               const status = cell?.status ?? "unknown";
               const tags = cell?.tags ?? [];
