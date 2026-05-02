@@ -135,24 +135,37 @@ export function useBaseline(): UseBaselineResult {
         setError(null);
         attempts = 0;
 
+        // Batch SSE updates to avoid per-event re-renders (825 records
+        // seeding = 825 individual SSE events = 825 Map clones + grid
+        // re-renders without batching). Buffer events and flush every 100ms.
+        const sseBuf: Array<{ action: string; record: BaselineCell }> = [];
+        let flushTimer: ReturnType<typeof setTimeout> | null = null;
+
+        function flushSseBuf() {
+          flushTimer = null;
+          if (sseBuf.length === 0 || !alive) return;
+          const batch = sseBuf.splice(0);
+          setCells((prev) => {
+            const next = new Map(prev);
+            for (const evt of batch) {
+              if (evt.action === "delete") {
+                next.delete(evt.record.key);
+              } else {
+                next.set(evt.record.key, evt.record);
+              }
+            }
+            return next;
+          });
+        }
+
         const unsub = await pb
           .collection("baseline")
           .subscribe<BaselineCell>("*", (e) => {
             try {
               if (!alive) return;
-              if (e.action === "delete") {
-                setCells((prev) => {
-                  const next = new Map(prev);
-                  next.delete(e.record.key);
-                  return next;
-                });
-              } else {
-                // create or update
-                setCells((prev) => {
-                  const next = new Map(prev);
-                  next.set(e.record.key, e.record);
-                  return next;
-                });
+              sseBuf.push({ action: e.action, record: e.record });
+              if (!flushTimer) {
+                flushTimer = setTimeout(flushSseBuf, 100);
               }
             } catch (cbErr) {
               // eslint-disable-next-line no-console
