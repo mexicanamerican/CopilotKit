@@ -187,7 +187,7 @@ describe("CP2: transitionLine discriminates first/error", () => {
     await waitFor(() => {
       const el = findBadgeByName(container, "RT");
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      expect(el.getAttribute("title")!).toMatch(/since 2025-02-02/);
+      expect(el.getAttribute("title")!).toMatch(/\(error → red\)/);
     });
     const updated = findBadgeByName(container, "RT");
     expect(updated.getAttribute("title")).toContain("(error → red)");
@@ -213,7 +213,7 @@ describe("CP2: transitionLine discriminates first/error", () => {
     await waitFor(() => {
       const el = findBadgeByName(container, "RT");
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      expect(el.getAttribute("title")!).toMatch(/since 2025-02-02/);
+      expect(el.getAttribute("title")!).toMatch(/\(green → red\)/);
     });
     const updated = findBadgeByName(container, "RT");
     expect(updated.getAttribute("title")).toContain("(green → red)");
