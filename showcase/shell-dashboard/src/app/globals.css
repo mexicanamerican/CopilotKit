@@ -40,3 +40,10 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+/* Row hover highlight — overrides inline backgroundColor on sticky cells
+   so the entire row (including the frozen feature-name column) highlights
+   on hover. Used by both Coverage and Baseline grids. */
+tr.grid-row:hover > td {
+  background-color: var(--bg-hover) !important;
+}

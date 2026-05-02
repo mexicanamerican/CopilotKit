@@ -276,7 +276,7 @@ const CategorySection = React.memo(function CategorySection({
           return (
             <tr
               key={feature.id}
-              className="border-t border-[var(--border)] hover:bg-[var(--bg-hover)]"
+              className="grid-row border-t border-[var(--border)]"
               style={stripe ? STRIPE_STYLE : undefined}
             >
               <td
